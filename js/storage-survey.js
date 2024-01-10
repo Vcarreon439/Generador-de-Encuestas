@@ -61,21 +61,6 @@ function validateForm() {
 
 btnStorageSurvey.addEventListener('click', (ev) => {
 
-    //Validar campos
-    /*const selector = document.getElementById('survey-type');
-    var selected = selector.options[selector.selectedIndex].value;
-
-    if (!selected) {
-
-        //Quitar clase original
-        selector.classList.remove('input-text');
-        //Agregar clase de error
-        selector.classList.add('input-text-error');
-
-        alert("Por favor, selecciona una opción");
-        return false;
-    }*/
-
     //Validar campos preguntas
     const surveyData = sessionStorage.getItem('surveyData');
     const surveyDataDecode = JSON.parse(surveyData);
@@ -98,23 +83,14 @@ btnStorageSurvey.addEventListener('click', (ev) => {
             alert("Por favor, selecciona una opción en la pregunta: " + question.questionTitle);
             return false;
         }
-
-        if (question.questionType === 'radio' || question.questionType === 'checkbox') {
-            if (question.options.length < 2) {
-                alert("Por favor, agrega al menos 2 opciones en la pregunta: " + question.question);
-                return false;
-            }
+        else{
+            ev.stopPropagation();
+            storageSurvey().then((data) => {
+                sessionStorage.removeItem('surveyData');
+                location.reload();
+            }).catch((e) => {
+                console.error(e);
+            });
         }
     });
-
-    
-
-
-   /*ev.stopPropagation();
-    storageSurvey().then((data) => {
-        sessionStorage.removeItem('surveyData');
-        location.reload();
-    }).catch((e) => {
-        console.error(e);
-    });*/
 });
